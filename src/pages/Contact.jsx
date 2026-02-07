@@ -1,149 +1,102 @@
-import { Suspense, useRef, useState } from 'react'
+import { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
-import { Canvas } from '@react-three/fiber';
-
-import Loader from '../components/Loader';
-
-import Fox from '../models/Fox';
-import useAlert from '../hooks/useAlert';
-import Alert from '../components/Alert';
+import { FaPaperPlane, FaEnvelope, FaLinkedin, FaGithub, FaMapMarkerAlt } from 'react-icons/fa';
+import './Contact.css';
 
 const Contact = () => {
-  const formRef = useRef(null);
-  const [form, setForm] = useState({ name: '', email: '', message: ''});
-  const [isLoading, setIsLoading] = useState(false);
-  const [currentAnimation, setCurrentAnimation] = useState('idle');
+  const formRef = useRef();
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState('');
 
-  const { alert, showAlert, hideAlert } = useAlert();
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  };
-  
-  const handleSubmit = (e) => {
+  const sendEmail = (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    setCurrentAnimation('hit');
+    setLoading(true);
 
-    emailjs.send(
-      import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-      import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
-      {
-        from_name: form.name,
-        to_name: "Arnab",
-        from_email: form.email,
-        to_email: 'arnabbumba077@gmail.com',
-        message: form.message
-      },
-      import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
-    ).then(() => {
-      setIsLoading(false);
-      showAlert({ show: true, text: 'Message sent successfully!', type: 'success' })
-
-      setTimeout(() => {
-        hideAlert();
-        setCurrentAnimation('idle');
-        setForm({ name: '', email: '', message: ''});
-      }, [3000])
-
-    }).catch((error) => {
-      setIsLoading(false);
-      setCurrentAnimation('idle');
-      showAlert({ show: true, text: 'I didnt receive your message', type: 'danger' })
-    })
+    // Note: Replace these with actual EmailJS credentials
+    emailjs.sendForm(
+      'service_8e3ebby',
+      'template_i2kcp9j',
+      formRef.current,
+      'KrwlwLVykyrQcoala'
+    )
+      .then((result) => {
+        setLoading(false);
+        setStatus('success');
+        formRef.current.reset();
+      }, (error) => {
+      }, (error) => {
+        setLoading(false);
+        setStatus('error');
+        console.log(error.text);
+      });
   };
-
-  const handleFocus = () => setCurrentAnimation('walk');
-  const handleBlur = () => setCurrentAnimation('idle');
 
   return (
-    <section className="relative flex lg:flex-row flex-col max-container h-[100vh]">
-      {alert.show && <Alert {...alert} />}
+    <div className="contact-page section animate-fade-in">
+      <div className="container">
+        <h2 className="heading-md text-center">Let's <span className="gradient-text">Connect</span></h2>
 
-      <div className="flex-1 min-w-[50%] flex flex-col">
-        <h1 className="head-text">Get in Touch</h1>
+        <div className="contact-grid">
+          <div className="contact-info">
+            <h3 className="section-title">Get in touch</h3>
+            <p>I'm always open to discussing research collaborations, AI engineering roles, or innovative projects.</p>
 
-        <form 
-        className="w-full flex flex-col gap-7 mt-14"
-        onSubmit={handleSubmit}
-        >
-          <label className="text-black-500 font-semibold">
-            Name
-            <input 
-              type="text"
-              name="name"
-              className="input"
-              placeholder="Arnab"
-              required
-              value={form.name}
-              onChange={handleChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-          </label>
-          <label className="text-black-500 font-semibold">
-            Email
-            <input 
-              type="email"
-              name="email"
-              className="input"
-              placeholder="arnab@gmail.com"
-              required
-              value={form.email}
-              onChange={handleChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-          </label>
-          <label className="text-black-500 font-semibold">
-            Your Message
-            <textarea 
-              name="message"
-              rows={4}
-              className="textarea"
-              placeholder="Let me know how I can help you!"
-              required
-              value={form.message}
-              onChange={handleChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-          </label>
-          <button
-            type="submit"
-            className="btn"
-            disabled={isLoading}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-          >
-            {isLoading ? 'Sending...' : 'Send Message'}
-          </button>
-        </form>
+            <div className="info-items">
+              <div className="info-item">
+                <FaEnvelope className="info-icon" />
+                <div>
+                  <h4>Email</h4>
+                  <p>arnabbumba077@gmail.com</p>
+                </div>
+              </div>
+              <div className="info-item">
+                <FaMapMarkerAlt className="info-icon" />
+                <div>
+                  <h4>Location</h4>
+                  <p>Kolkata, West Bengal, India</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="social-cta">
+              <h4>Social Profiles</h4>
+              <div className="social-btns">
+                <a href="https://github.com/ArnabNath1" target="_blank" rel="noopener noreferrer" className="social-btn">
+                  <FaGithub /> GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/arnabnath07" target="_blank" rel="noopener noreferrer" className="social-btn">
+                  <FaLinkedin /> LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="contact-form-container glass-card">
+            <form ref={formRef} onSubmit={sendEmail} className="contact-form">
+              <div className="form-group">
+                <label>Name</label>
+                <input type="text" name="user_name" placeholder="John Doe" required />
+              </div>
+              <div className="form-group">
+                <label>Email</label>
+                <input type="email" name="user_email" placeholder="john@example.com" required />
+              </div>
+              <div className="form-group">
+                <label>Message</label>
+                <textarea name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+              </div>
+              <button type="submit" className="btn btn-primary submit-btn" disabled={loading}>
+                {loading ? 'Sending...' : 'Send Message'} <FaPaperPlane className="btn-icon" />
+              </button>
+
+              {status === 'success' && <p className="status-msg success">Message sent successfully!</p>}
+              {status === 'error' && <p className="status-msg error">Something went wrong. Please try again.</p>}
+            </form>
+          </div>
+        </div>
       </div>
+    </div>
+  );
+};
 
-      <div className='lg:w-1/2 w-full lg:h-auto md:h-[550px] h-[350px]'>
-        <Canvas
-          camera={{
-            position: [0, 0, 5],
-            fox: 75,
-            near: 0.1,
-            far: 1000
-          }}
-        >
-          <directionalLight intensity={2.5} position={[0, 0, 1]} />
-          <ambientLight intensity={0.5} />
-          <Suspense fallback={<Loader />}>
-            <Fox 
-              currentAnimation={currentAnimation}
-              position={[0.5, 0.35, 0]}
-              rotation={[12.6, -0.6, 0]}
-              scale={[0.5, 0.5, 0.5]}
-            />
-          </Suspense>
-        </Canvas>
-      </div>
-    </section>
-  )
-}
-
-export default Contact
+export default Contact;

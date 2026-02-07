@@ -1,109 +1,84 @@
-import { Suspense, useState, useEffect, useRef } from 'react'
-import { Canvas } from '@react-three/fiber'
-import Loader from '../components/Loader'
-
-import Island from '../models/Island'
-import Sky from '../models/Sky'
-import Bird from '../models/Bird'
-import Plane from '../models/Plane'
-import HomeInfo from '../components/HomeInfo'
-
-import sakura from '../assets/sakura.mp3'
-import { soundoff, soundon } from '../assets/icons'
+import { motion } from 'framer-motion';
+import { FaGraduationCap, FaMicroscope, FaBrain } from 'react-icons/fa';
+import './Home.css';
 
 const Home = () => {
-  const audioRef = useRef(new Audio(sakura));
-  audioRef.current.volume = 0.4;
-  audioRef.current.loop = true;
-  const [isRotating, setIsRotating] = useState(false);
-  const [currentStage, setCurrentStage] = useState(1)
-  const [isPlayingMusic, setIsPlayingMusic] = useState(false);
+  const researchInterests = [
+    "Time-Series Forecasting and Spatio-temporal Data Analysis",
+    "Explainable AI and Model Interpretability",
+    "Integration of Simulation, Imaging, and Data in XR",
+    "Human–Computer Interaction in XR Environments",
+    "Machine Learning for Imaging and Sensing Systems",
+    "Machine Learning for Interactive and Immersive Systems",
+    "Responsible and Explainable Machine Learning in XR Applications",
+    "Multimodal Data Fusion for Imaging and XR Systems"
+  ];
 
-  useEffect(() => {
-    if(isPlayingMusic) {
-      audioRef.current.play();
-    }
-
-    return () => {
-      audioRef.current.pause();
-    }
-  },[isPlayingMusic])
-
-  const adjustIslandForScreenSize = () => {
-    let screenScale = null;
-    let screenPosition = [0, -6.5, -43];
-    let rotation = [0.1, 4.7, 0];
-
-    if(window.innerWidth < 768) {
-      screenScale = [0.9, 0.9, 0.9];
-    } else {
-      screenScale = [1, 1, 1];
-    }
-
-    return [screenScale, screenPosition, rotation];
-  }
-
-  const adjustPlaneForScreenSize = () => {
-    let screenScale, screenPosition;
-
-    if(window.innerWidth < 768) {
-      screenScale = [1.5, 1.5, 1.5];
-      screenPosition = [0, -1.5, 0];
-    } else {
-      screenScale = [3, 3, 3];
-      screenPosition = [0, -4, -4];
-    }
-
-    return [screenScale, screenPosition];
-  }
-
-  const [islandScale, islandPosition, islandRotation] = adjustIslandForScreenSize();
-  const [planeScale, planePosition] = adjustPlaneForScreenSize();
-  
   return (
-    <section className="w-full h-screen relative">
-    <div className="absolute top-28 left-0 right-0 z-10 flex items-center justify-center">
-      {currentStage && <HomeInfo currentStage={currentStage} />}
+    <div className="home-page animate-fade-in">
+      <section className="hero section">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="heading-lg">
+              Engineering <span className="gradient-text">Intelligence</span><br />
+              Shaping the Future.
+            </h1>
+            <p className="hero-subtext">
+              I am <span className="highlight">Arnab Nath</span>, a Software Engineer specializing in GenAI,
+              LLM Orchestration, and RAG systems. Based in Kolkata, I build scalable AI solutions
+              that bridge the gap between research and production.
+            </p>
+            <div className="hero-btns">
+              <a href="/projects" className="btn btn-primary">View My Work</a>
+              <a href="https://github.com/ArnabNath1" target="_blank" rel="noopener noreferrer" className="btn btn-outline">GitHub</a>
+              <a href="https://www.linkedin.com/in/arnabnath07" target="_blank" rel="noopener noreferrer" className="btn btn-outline">LinkedIn</a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="about section bg-alt">
+        <div className="container grid grid-cols-2">
+          <div className="about-content">
+            <h2 className="heading-md">About Me</h2>
+            <p>
+              Computer Science graduate specializing in AI and Machine Learning with strong research experience in climate and environmental modeling.
+              Skilled in comparative evaluation of ML models, time-series forecasting, and explainable AI.
+            </p>
+            <p>
+              My expertise lies in building reproducible ML pipelines and GenAI systems in production environments.
+              I am passionate about creating tools that empower developers and businesses to leverage the full potential of Artificial Intelligence.
+            </p>
+            <div className="edu-item">
+              <FaGraduationCap className="edu-icon" />
+              <div>
+                <h4>Bachelor of Technology</h4>
+                <p>Haldia Institute of Technology | 2020 - 2024</p>
+                <p className="text-muted">CGPA: 9.02</p>
+              </div>
+            </div>
+          </div>
+          <div className="research-box glass-card">
+            <h3 className="flex-center">
+              <FaMicroscope className="icon-margin" /> Research Interests
+            </h3>
+            <ul className="interest-list">
+              {researchInterests.map((interest, index) => (
+                <li key={index} className="interest-item">
+                  <FaBrain className="bullet-icon" />
+                  {interest}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
     </div>
+  );
+};
 
-      <Canvas 
-      className={`w-full h-screen bg-transparent ${isRotating ? 'cursor-grabbing' : 'cursor-grab'}`}
-      camera={{ near: 0.1, far: 1000 }}
-      >
-        <Suspense fallback={<Loader />}>
-          <directionalLight position={[1, 1, 1]} intensity={2} />
-          <ambientLight intensity={0.5} />
-          <hemisphereLight skyColor="#b1e1ff" groundColor="#000000" intensity={1} />
-          
-          <Bird />
-          <Sky isRotating={isRotating} />
-          <Island 
-            position={islandPosition}
-            scale={islandScale}
-            rotation={islandRotation}
-            isRotating={isRotating}
-            setIsRotating={setIsRotating}
-            setCurrentStage={setCurrentStage}
-          />
-          <Plane 
-            isRotating={isRotating} 
-            scale={planeScale}
-            position={planePosition}
-            rotation={[0, 20, 0]}
-          />
-        </Suspense>
-      </Canvas>
-
-      <div className="absolute bottom-2 left-2">
-        <img 
-          src={!isPlayingMusic ? soundoff : soundon}
-          alt="sound"
-          className="w-10 h-10 cursor-pointer object-contain"
-          onClick={() => setIsPlayingMusic(!isPlayingMusic)}
-        />
-      </div>
-    </section>
-  )
-}
-
-export default Home
+export default Home;
