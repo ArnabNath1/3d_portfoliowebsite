@@ -5,12 +5,40 @@
     gap: 4rem;
 }
 
+@media (max-width: 768px) {
+    .skills-container {
+        gap: 3rem;
+        margin-top: 2.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .skills-container {
+        gap: 2.5rem;
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-container {
+        gap: 2rem;
+        margin-top: 1.5rem;
+    }
+}
+
 .group-title {
     margin-bottom: 2rem;
     font-size: 1.5rem;
     color: var(--text-primary);
     border-left: 4px solid var(--accent-primary);
     padding-left: 1rem;
+}
+
+@media (max-width: 768px) {
+    .group-title {
+        font-size: 1.35rem;
+        margin-bottom: 1.75rem;
+    }
 }
 
 .skills-grid {

@@ -11,6 +11,18 @@
     margin-bottom: 4rem;
 }
 
+@media (max-width: 768px) {
+    .timeline-item {
+        margin-bottom: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .timeline-item {
+        margin-bottom: 2rem;
+    }
+}
+
 .timeline-dot {
     position: absolute;
     left: -66px;
@@ -29,6 +41,18 @@
 
 .exp-card {
     padding: 2.5rem;
+}
+
+@media (max-width: 768px) {
+    .exp-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .exp-card {
+        padding: 1rem;
+    }
 }
 
 .exp-header {

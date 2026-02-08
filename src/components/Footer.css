@@ -4,6 +4,18 @@
     background: var(--bg-secondary);
 }
 
+@media (max-width: 768px) {
+    .footer {
+        padding: 2.5rem 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer {
+        padding: 2rem 0;
+    }
+}
+
 .footer-content {
     display: flex;
     justify-content: space-between;
@@ -12,9 +24,27 @@
     font-size: 0.9rem;
 }
 
+@media (max-width: 768px) {
+    .footer-content {
+        font-size: 0.85rem;
+    }
+}
+
 .social-links {
     display: flex;
     gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .social-links {
+        gap: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .social-links {
+        gap: 1rem;
+    }
 }
 
 .social-links a {
