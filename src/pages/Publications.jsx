@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FaFileAlt, FaQuoteLeft, FaCalendarAlt, FaUserEdit } from 'react-icons/fa';
+import { FaFileAlt, FaQuoteLeft, FaCalendarAlt, FaUserEdit, FaExternalLinkAlt } from 'react-icons/fa';
 import './Publications.css';
 
 const Publications = () => {
@@ -9,7 +9,8 @@ const Publications = () => {
             status: "Present",
             authors: "Arnab Nath, Ayeeshique Ishaan, Biswadeep Bhattacharjee, Sayak Sarkar",
             publisher: "Preprint, Research Square, 2025. Manuscript submitted to journal",
-            abstract: "A large-scale comparison of nine ML regression models for daily temperature forecasting using long-term meteorological data, highlighting the superior performance of nonlinear and ensemble methods through rigorous, leakage-aware evaluation."
+            abstract: "A large-scale comparison of nine ML regression models for daily temperature forecasting using long-term meteorological data, highlighting the superior performance of nonlinear and ensemble methods through rigorous, leakage-aware evaluation.",
+            link: "https://www.researchsquare.com/article/rs-8391655/latest"
         }
     ];
 
@@ -47,6 +48,16 @@ const Publications = () => {
                                 <FaQuoteLeft className="quote-icon" />
                                 <p>{pub.abstract}</p>
                             </div>
+                            {pub.link && (
+                                <a 
+                                    href={pub.link} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="pub-link-btn btn btn-primary"
+                                >
+                                    <FaExternalLinkAlt /> Read Publication
+                                </a>
+                            )}
                         </motion.div>
                     ))}
                 </div>

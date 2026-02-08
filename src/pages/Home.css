@@ -5,11 +5,39 @@
     padding-top: 120px;
 }
 
+@media (max-width: 768px) {
+    .hero {
+        min-height: 85vh;
+        padding-top: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        min-height: 100vh;
+        padding-top: 80px;
+    }
+}
+
 .hero-subtext {
     font-size: 1.25rem;
     color: var(--text-secondary);
     max-width: 700px;
     margin-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+    .hero-subtext {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-subtext {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
 }
 
 .highlight {
@@ -20,6 +48,19 @@
 .hero-btns {
     display: flex;
     gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+    .hero-btns {
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .hero-btns .btn {
+        width: 100%;
+    }
 }
 
 .bg-alt {
@@ -40,6 +81,14 @@
     background: var(--bg-tertiary);
     border-radius: 15px;
     border: 1px solid var(--border-color);
+}
+
+@media (max-width: 480px) {
+    .edu-item {
+        gap: 1rem;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
 }
 
 .edu-icon {

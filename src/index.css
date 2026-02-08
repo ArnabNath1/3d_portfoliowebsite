@@ -69,18 +69,48 @@ ul {
   padding: 0 2rem;
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+}
+
 .section {
   padding: 8rem 0;
 }
 
+@media (max-width: 768px) {
+  .section {
+    padding: 4rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 2.5rem 0;
+  }
+}
+
 .heading-lg {
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-size: clamp(1.75rem, 6vw, 4.5rem);
   line-height: 1.1;
   margin-bottom: 2rem;
 }
 
+@media (max-width: 480px) {
+  .heading-lg {
+    margin-bottom: 1.5rem;
+  }
+}
+
 .heading-md {
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(1.5rem, 5vw, 3rem);
   margin-bottom: 1.5rem;
 }
 
@@ -119,6 +149,7 @@ ul {
   border: none;
   font-size: 1rem;
   transition: var(--transition-smooth);
+  white-space: nowrap;
 }
 
 .btn-primary {
@@ -140,6 +171,13 @@ ul {
 .btn-outline:hover {
   background: var(--border-color);
   border-color: var(--text-primary);
+}
+
+@media (max-width: 480px) {
+  .btn {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+  }
 }
 
 /* Grid Layouts */
